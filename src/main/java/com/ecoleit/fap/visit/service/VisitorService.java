@@ -16,8 +16,8 @@ public class VisitorService {
 		this.repos = repos;
 	}
 	
-	public Visitor addVisitor(Visitor visitor) {
-		return repos.save(visitor);
+	public void addVisitor(Visitor visitor) {
+		 repos.save(visitor);
 	}
 	
 	public Visitor getVisitor(int id) {

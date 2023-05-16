@@ -1,55 +1,52 @@
-package com.ecoleit.fap.visit.entity;
+package com.ecoleit.fap.visit.dto;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.ecoleit.fap.visit.entity.Exposant;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 
-@Entity
-@Table(name="visitor")
-public class Visitor {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int idVisitor;
-	@Column
+public class ExposantDTO {
+	
+	private int idExposant;
+	
 	private String name;
-	@Column
+	
 	private String surname;
-	@Column
+	
 	private String adresse;
-	@Column
+	
 	private String phone;
-	@Column
+	
 	private String email;
-	@Column
+	
 	private String password;
-	@Column 
+	
 	private String poBox;
-	@Column 
+	
 	private String town;
 	
-	@Enumerated(EnumType.STRING)
-	private TypeVisitor typeVisitor;
 	
-	@OneToMany(mappedBy="visitor")
-	private List<Visit> visit=new ArrayList<Visit>();
 
-	public Visitor() {
+	public ExposantDTO() {
 		super();
 	}
 
-	
+	public ExposantDTO(int idExposant, String name, String surname, String adresse, String phone, String email,
+			String password, String poBox, String town) {
+		super();
+		this.idExposant = idExposant;
+		this.name = name;
+		this.surname = surname;
+		this.adresse = adresse;
+		this.phone = phone;
+		this.email = email;
+		this.password = password;
+		this.poBox = poBox;
+		this.town = town;
+	}
 
-	public Visitor(String name, String surname, String adresse, String phone, String email, String password,
-			String poBox, String town, TypeVisitor typeVisitor) {
+	public ExposantDTO(String name, String surname, String adresse, String phone, String email, String password,
+			String poBox, String town) {
 		super();
 		this.name = name;
 		this.surname = surname;
@@ -59,19 +56,14 @@ public class Visitor {
 		this.password = password;
 		this.poBox = poBox;
 		this.town = town;
-		this.typeVisitor = typeVisitor;
-	}
-	
-	
-
-
-
-	public int getIdVisitor() {
-		return idVisitor;
 	}
 
-	public void setIdVisitor(int idVisitor) {
-		this.idVisitor = idVisitor;
+	public int getIdExposant() {
+		return idExposant;
+	}
+
+	public void setIdExposant(int idExposant) {
+		this.idExposant = idExposant;
 	}
 
 	public String getName() {
@@ -130,34 +122,32 @@ public class Visitor {
 		this.poBox = poBox;
 	}
 
-	public TypeVisitor getTypeVisitor() {
-		return typeVisitor;
-	}
-
-	public void setTypeVisitor(TypeVisitor typeVisitor) {
-		this.typeVisitor = typeVisitor;
-	}
-
-	public List<Visit> getVisit() {
-		return visit;
-	}
-
-	public void setVisit(List<Visit> visit) {
-		this.visit = visit;
-	}
-
-
-
 	public String getTown() {
 		return town;
 	}
-
-
 
 	public void setTown(String town) {
 		this.town = town;
 	}
 	
+      public void mapExposantEntity(Exposant entity) {
+		
+		 
+		this.setAdresse(entity.getAdresse());
+		this.setEmail(entity.getEmail());
+		this.setName(entity.getName());
+		this.setPoBox(entity.getPoBox());
+		this.setPhone(entity.getPhone());
+		this.setSurname(entity.getSurname());
+		this.setTown(entity.getTown());
+		this.setPassword(entity.getPassword());
+		this.setIdExposant(entity.getIdExposant());
+		
+		
+		
+	}
+	
 	
 
+	 
 }

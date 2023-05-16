@@ -1,9 +1,11 @@
 package com.ecoleit.fap.visit.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.ecoleit.fap.visit.dto.ExposantDTO;
 import com.ecoleit.fap.visit.entity.Exposant;
 import com.ecoleit.fap.visit.entity.Stand;
 import com.ecoleit.fap.visit.entity.Visitor;
@@ -22,15 +24,27 @@ public class ExposantService {
 		repos.save(exp);
 	}
 	
-	public Exposant getExposant(int id) {
-		return repos.findById(id).get();
+	public ExposantDTO getExposant(int id) {
+		
+		Exposant entity= repos.findById(id).get();
+		ExposantDTO exposant=new ExposantDTO();
+		exposant.mapExposantEntity(entity);
+		return exposant;
 	}
 	
 	 
 	
-	public List<Exposant> getAllExposants(){
-		
-		return repos.findAll();
+	public List<ExposantDTO> getAllExposants(){
+		List<ExposantDTO> exposants=new ArrayList<ExposantDTO>();
+		List<Exposant> list=repos.findAll();
+		for(Exposant entity:list) {
+			ExposantDTO exposant=new ExposantDTO();
+			exposant.mapExposantEntity(entity);
+			exposants.add(exposant);
+			
+		}
+		 
+		 return exposants;
 		
 	}
 }

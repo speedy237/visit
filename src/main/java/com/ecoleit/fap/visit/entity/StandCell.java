@@ -1,5 +1,5 @@
 package com.ecoleit.fap.visit.entity;
-
+import com.ecoleit.fap.visit.dto.StandCellDTO;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -10,6 +10,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -22,29 +23,29 @@ public class StandCell {
 	private int idCell;
 	@Enumerated(EnumType.STRING)
 	private Typology typology;
-	@Lob
 	@Column
-	private byte[] contenu;
+	private String url;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional=false)
+	@ManyToOne(cascade = CascadeType.ALL, optional=false)
+	@JoinColumn(name="idStand",nullable=false)
 	private Stand stand;
 
 	public StandCell() {
 		super();
 	}
 
-	public StandCell(int idCell, Typology typology, byte[] contenu, Stand stand) {
+	public StandCell(int idCell, Typology typology, String url, Stand stand) {
 		super();
 		this.idCell = idCell;
 		this.typology = typology;
-		this.contenu = contenu;
+		this.url = url;
 		this.stand = stand;
 	}
 
-	public StandCell(Typology typology, byte[] contenu) {
+	public StandCell(Typology typology, String url) {
 		super();
 		this.typology = typology;
-		this.contenu = contenu;
+		this.url = url;
 	}
 
 	public int getIdCell() {
@@ -63,12 +64,12 @@ public class StandCell {
 		this.typology = typology;
 	}
 
-	public byte[] getContenu() {
-		return contenu;
+	public String getUrl() {
+		return url;
 	}
 
-	public void setContenu(byte[] contenu) {
-		this.contenu = contenu;
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	public Stand getStand() {
@@ -79,8 +80,11 @@ public class StandCell {
 		this.stand = stand;
 	}
 	
-	
-
-	
-	
+	public void mapStandCellDTO(StandCellDTO standCellDTO) {
+		this.setIdCell(standCellDTO.getIdCell());
+		this.setTypology(standCellDTO.getTypology());
+		this.setUrl(standCellDTO.getUrl());
+		Stand stand=new Stand();
+		stand.mapStandDTO(standCellDTO.getStand());
+	}
 }

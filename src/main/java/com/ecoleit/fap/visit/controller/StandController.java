@@ -1,7 +1,6 @@
 package com.ecoleit.fap.visit.controller;
-
 import java.io.IOException;
-
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
+import com.ecoleit.fap.visit.dto.StandCellDTO;
+import com.ecoleit.fap.visit.dto.StandDTO;
 import com.ecoleit.fap.visit.entity.Stand;
 import com.ecoleit.fap.visit.entity.StandCell;
 import com.ecoleit.fap.visit.service.StandCellService;
@@ -32,25 +32,42 @@ public class StandController {
 	}
 	
 	@PostMapping("{id}/stand-cell")
-	public ResponseEntity<String> addStandCell(@PathVariable("id") int id, @RequestParam("file") MultipartFile file, @RequestBody StandCell cell) {
-		Stand stand=service2.getStand(id);
-		cell.setStand(stand);
+	@ResponseStatus(HttpStatus.CREATED)
+	public void addStandCell(@PathVariable("id") int id, @RequestBody StandCellDTO cellDTO) {
+		StandDTO standDTO=service2.getStand(id);
+		System.out.println("idStand: "+standDTO.getIdStand()+", name: "+standDTO.getName());
+		cellDTO.setStand(standDTO);
+		StandCell cell=new StandCell();
+		cell.mapStandCellDTO(cellDTO);
+		System.out.println("typologie: "+cellDTO.getTypology()+", url: "+cellDTO.getUrl()+", idStand "+cellDTO.getStand().getIdStand());
 		service1.addStandCell(cell);
-		try {
-			cell.setContenu(file.getBytes());
-			return ResponseEntity.ok("cell succefull add");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return ResponseEntity.notFound().build();
-		}
+
+	 
 		
 	}
 	
 	@GetMapping("{id}")
 	@ResponseStatus(HttpStatus.OK)
-	public Stand getStand(@PathVariable("id") int id) {
+	public StandDTO getStand(@PathVariable("id") int id) {
 		return service2.getStand(id);
+	}
+	
+	@GetMapping
+	@ResponseStatus(HttpStatus.OK)
+	public List<StandDTO> getStands(){
+		
+		return service2.getStands();
+		
+	}
+	@ResponseStatus(HttpStatus.OK)
+	@GetMapping("{id}/stand-cell")
+	public List<StandCellDTO> getCellByStands(@PathVariable("id") int id){
+		System.out.println("debut ok");
+		
+		StandDTO stand=service2.getStand(id);
+		System.out.println("Stand: "+stand.getName());
+
+		return service1.getCellByStand(stand);
 	}
 
 }

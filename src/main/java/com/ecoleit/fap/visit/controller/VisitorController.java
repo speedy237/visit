@@ -1,5 +1,8 @@
 package com.ecoleit.fap.visit.controller;
 
+import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,9 +26,14 @@ public class VisitorController {
 
 
 	@PostMapping
-	public Visitor addVisitor(@RequestBody Visitor visitor) {
-		return service.addVisitor(visitor);
+	public void addVisitor(@RequestBody Visitor visitor) {
+		 service.addVisitor(visitor);
 	}
-	
+	@GetMapping
+	public List<Visitor> getVisitors(){
+		
+		return service.getAllVisitor();
+		
+	}
 
 }

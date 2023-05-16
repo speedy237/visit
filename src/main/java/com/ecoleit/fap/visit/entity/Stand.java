@@ -2,13 +2,18 @@ package com.ecoleit.fap.visit.entity;
 
 import java.util.List;
 
+import com.ecoleit.fap.visit.dto.StandDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -24,10 +29,8 @@ public class Stand {
 	
 	@OneToOne
 	@JoinColumn(name="idExposant")
+	@JsonIgnore
 	private Exposant exposant;
-	
-	@OneToMany(mappedBy = "stand", cascade = CascadeType.ALL)
-	private List<StandCell> standCell;
 	
 	@OneToMany(mappedBy="stand")
 	private List<Visit> visit;
@@ -36,21 +39,26 @@ public class Stand {
 		super();
 	}
 
-	public Stand(String name, Exposant exposant, List<StandCell> standCell, List<Visit> visit) {
+	public Stand(String name, Exposant exposant, List<StandCell> standCell ) {
 		super();
 		this.name = name;
 		this.exposant = exposant;
-		this.standCell = standCell;
+	 
 		this.visit = visit;
 	}
 
-	public Stand(int idStand, String name, Exposant exposant, List<StandCell> standCell, List<Visit> visit) {
+	public Stand(int idStand, String name, Exposant exposant, List<StandCell> standCell ) {
 		super();
 		this.idStand = idStand;
 		this.name = name;
 		this.exposant = exposant;
-		this.standCell = standCell;
+		 
 		this.visit = visit;
+	}
+	
+	public Stand(String name) {
+		super();
+		this.name = name;
 	}
 
 	public int getIdStand() {
@@ -77,14 +85,6 @@ public class Stand {
 		this.exposant = exposant;
 	}
 
-	public List<StandCell> getStandCell() {
-		return standCell;
-	}
-
-	public void setStandCell(List<StandCell> standCell) {
-		this.standCell = standCell;
-	}
-
 	public List<Visit> getVisit() {
 		return visit;
 	}
@@ -93,6 +93,13 @@ public class Stand {
 		this.visit = visit;
 	}
 	
+	public void mapStandDTO(StandDTO dto) {
+		
+		this.setName(dto.getName());
+		this.setIdStand(dto.getIdStand());
+		Exposant exposant=new Exposant();
+		exposant.mapExposantDTO(dto.getExposant());
+		this.setExposant(exposant);
+	}
 	
-
 }

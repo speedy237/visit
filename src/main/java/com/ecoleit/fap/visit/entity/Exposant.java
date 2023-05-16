@@ -1,5 +1,7 @@
 package com.ecoleit.fap.visit.entity;
 
+import com.ecoleit.fap.visit.dto.ExposantDTO;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,15 +33,12 @@ public class Exposant {
 	private String poBox;
 	@Column
 	private String town;
-	
-	@OneToOne(mappedBy="exposant", cascade = CascadeType.ALL)
-	private Stand stand;
-
 	public Exposant() {
 		super();
-		this.stand=new Stand();
+		
 	}
 
+	 
 	public Exposant(String name, String surname, String adresse, String phone, String email, String password,
 			String poBox, String town) {
 		super();
@@ -51,24 +50,10 @@ public class Exposant {
 		this.password = password;
 		this.poBox = poBox;
 		this.town = town;
-		this.stand=new Stand();
 	}
 
 
-	public Exposant(int idExposant, String name, String surname, String adresse, String phone, String email,
-			String password, String poBox, String town, Stand stand) {
-		super();
-		this.idExposant = idExposant;
-		this.name = name;
-		this.surname = surname;
-		this.adresse = adresse;
-		this.phone = phone;
-		this.email = email;
-		this.password = password;
-		this.poBox = poBox;
-		this.town = town;
-		this.stand = stand;
-	}
+	 
 
 	public int getIdExposant() {
 		return idExposant;
@@ -112,13 +97,7 @@ public class Exposant {
 		this.password = password;
 	}
 
-	public Stand getStand() {
-		return stand;
-	}
-
-	public void setStand(Stand stand) {
-		this.stand = stand;
-	}
+	 
 
 	public String getSurname() {
 		return surname;
@@ -150,6 +129,23 @@ public class Exposant {
 
 	public void setTown(String town) {
 		this.town = town;
+	}
+	
+	public void mapExposantDTO(ExposantDTO dto) {
+		
+		//Exposant entity=new Exposant();
+		this.setAdresse(dto.getAdresse());
+		this.setEmail(dto.getEmail());
+		this.setIdExposant(dto.getIdExposant());
+		this.setName(dto.getName());
+		this.setTown(dto.getTown());
+		this.setSurname(dto.getSurname());
+		this.setPassword(dto.getPassword());
+		this.setPoBox(dto.getPoBox());
+		this.setPhone(dto.getPhone());
+		
+		
+		
 	}
 	
 	

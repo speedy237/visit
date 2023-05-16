@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:file:./visit
+    url: jdbc:h2:file:./visit_beta
     driverClassName: org.h2.Driver
     username: sa
     password: password
@@ -11,10 +11,6 @@ spring:
   h2:
     console:
       enabled: true
-  servlet:
-    multipart:
-      enabled: true
-      max-file-size: 10MB
-      max-request-size: 10MB
+   
         
         
